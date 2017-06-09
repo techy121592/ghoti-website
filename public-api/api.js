@@ -88,16 +88,8 @@ function getCollections(err, db) {
     };
 
     loadCollections();
-
-    let currentDate = new Date();
-    let targetDate = new Date(currentDate.getYear() + 1900, currentDate.getMonth(), currentDate.getDate() + 1, 0, 0, 0);
-
-    let initialDelay = setInterval(() => {
-        clearInterval(initialDelay);
-        setInterval(loadCollections, 24 * 60 * 60 * 1000);
-        console.log('now on 24 hour inteval');
-        loadCollections();
-    }, targetDate.getTime() - currentDate.getTime());
+    // Reload every 15 minutes
+    setInterval(loadCollections, 15 * 60 * 1000);
 
     getMaxPostNumber();
     getMaxGameNumber();
