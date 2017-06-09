@@ -15,17 +15,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 h1 {
   display: inline-block;
-  margin: 10px 15px 5px;
+  margin: 10px 14px 5px;
 }
 
 div.header {
   border-bottom: solid;
   border-width: 1px;
   border-color: black;
+  min-width: 541px;
 }
 
 div.ghoti-website {
   width: 85%;
+  min-width: 541px;
   height: 95%;
   max-width: 100%;
   margin: 0 auto;
