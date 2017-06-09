@@ -1,4 +1,4 @@
-# ghoti-webiste
+# ghoti-website
 
 The software that runs the website on ghotigames.com
 
