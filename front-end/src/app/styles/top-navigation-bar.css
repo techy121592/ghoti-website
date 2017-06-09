@@ -1,0 +1,38 @@
+/*
+Copyright (C) 2017  David Welch
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+his program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+nav {
+    display: inline-block;
+}
+
+a {
+  border: solid;
+  border-width: 1px;
+  border-color: black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  bottom: 0;
+  position: relative;
+  padding: 7px 16px 12px;
+}
+
+a.active {
+  border-bottom-color: white;
+  padding-top: 16px;
+}
+
+a:not(.active) {
+  background-color: #eeeeee;
+}
