@@ -85,14 +85,14 @@ function getCollections(err, db) {
         console.log('loading collections');
         posts = db.collection('posts');
         games = db.collection('games');
+
+        getMaxPostNumber();
+        getMaxGameNumber();
     };
 
     loadCollections();
     // Reload every 15 minutes
     setInterval(loadCollections, 15 * 60 * 1000);
-
-    getMaxPostNumber();
-    getMaxGameNumber();
 }
 
 function getMaxPostNumber() {
