@@ -19,13 +19,13 @@ h1 {
 }
 
 div.header {
-  min-width: 541px;
+  min-width: 523px;
   position: relative;
 }
 
 div.ghoti-website {
   width: 85%;
-  min-width: 541px;
+  min-width: 523px;
   height: 95%;
   max-width: 100%;
   margin: 0 auto;
