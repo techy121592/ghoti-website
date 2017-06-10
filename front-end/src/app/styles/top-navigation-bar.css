@@ -29,8 +29,10 @@ a {
 }
 
 a.active {
+  background-color: white;
   border-bottom-color: white;
   padding-top: 16px;
+  z-index: 2;
 }
 
 a:not(.active) {

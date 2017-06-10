@@ -37,3 +37,7 @@ div.ghoti-website {
   border-color: black;
   border-radius: 5px;
 }
+
+div.content {
+  z-index: 1;
+}
