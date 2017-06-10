@@ -14,7 +14,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 -->
 
 <div class="game-list">
-  <div class="game" *ngFor="let game of games">
-    <h2><a routerLink="/games/{{game.GameNumber}}" routerLinkActive="active">{{game.Title}}</a></h2>
-  </div>
+  <a class="game" *ngFor="let game of games" routerLink="/games/{{game.GameNumber}}" routerLinkActive="active">
+    {{game.Title}}
+  </a>
 </div>
