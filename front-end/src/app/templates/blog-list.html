@@ -14,8 +14,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 -->
 
 <div class="post-list">
-  <div class="post" *ngFor="let post of posts">
-    <h2><a routerLink="/news/{{post.PostNumber}}" routerLinkActive="active">{{post.Title}}</a></h2>
-    <em>{{post.PostDate}}</em>
-  </div>
+  <a *ngFor="let post of posts" routerLink="/news/{{post.PostNumber}}" routerLinkActive="active">
+    <div class="post">
+      <strong>{{post.Title}}</strong>
+      <em>{{post.PostDate}}</em>
+    </div>
+  </a>
 </div>
