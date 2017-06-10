@@ -23,7 +23,7 @@ a {
   border-color: black;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  bottom: 0;
+  bottom: -1px;
   position: relative;
   padding: 7px 16px 12px;
 }
@@ -37,4 +37,5 @@ a.active {
 
 a:not(.active) {
   background-color: #eeeeee;
+  z-index: 0;
 }
