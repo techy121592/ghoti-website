@@ -18,20 +18,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1em;
-  width: 65%;
-  min-width: 400px;
-  max-width: 471px;
+  max-width: 425px;
 }
 
 #preview-canvas {
   max-width: 100px;
 }
 
+#game-canvas {
+  max-width: 95%;
+}
+
 #scoreDiv {
   float: left;
   margin: 0;
   vertical-align: top;
-  width: 10em;
+  width: 114px;
 }
 
 #score, label {

@@ -81,6 +81,7 @@ img:active {
   height: 100%;
   background-color: white;
   z-index: 11;
+  cursor: default;
 }
 
 .side-menu a {

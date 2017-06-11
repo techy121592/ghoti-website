@@ -22,7 +22,7 @@ import {GamePageService} from "../services/game-page";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'post-detail',
+  selector: 'game-page',
   providers: [GamePageService],
   styleUrls:['../styles/game-page.css'],
   templateUrl: '../templates/game-page.html'
