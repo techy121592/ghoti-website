@@ -24,6 +24,7 @@ div.header {
 
 div.ghoti-website {
   width: 85%;
+  max-width: 1000px;
   height: 95%;
   margin: 0 auto;
   background-color: white;
