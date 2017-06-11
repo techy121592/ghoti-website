@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  **/
 
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import '../rxjs-operators';
 
 @Component({
@@ -26,15 +26,23 @@ import '../rxjs-operators';
 })
 
 export class TopNavigationBarComponent implements OnInit {
-  logInOutUrl: string;
-  logInOutText: string;
+  windowWidth: number;
+  sideMenuShowing: boolean;
 
   ngOnInit() {
-    this.setLogInOutVariables(); // This could be called in the constructor for now, but I am putting it here, so that when I have it do work, I won't have to move it.
+    this.setWindowWidth();
+    this.sideMenuShowing = false;
   }
-  // I can make the API server the client pages. Might make sense...
-  setLogInOutVariables() {
-    this.logInOutUrl = "/login";
-    this.logInOutText = "Login";
+
+  @HostListener('window:resize') onResize() {
+    this.setWindowWidth();
+  }
+
+  setWindowWidth() {
+    this.windowWidth = window.innerWidth;
+  }
+
+  toggleMenu() {
+    this.sideMenuShowing = !this.sideMenuShowing;
   }
 }

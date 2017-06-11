@@ -26,6 +26,7 @@ a {
   bottom: -1px;
   position: relative;
   padding: 7px 16px 12px;
+  text-align: center;
 }
 
 a.active {
@@ -38,4 +39,76 @@ a.active {
 a:not(.active) {
   background-color: #eeeeee;
   z-index: 0;
+}
+
+img {
+  float: right;
+  margin: 0.775em 1em;
+  height: 1.25em;
+  border: solid lightgray 1px;
+  padding: .35em .25em;
+  border-radius: 5px;
+}
+
+img:hover {
+  background-color: lightblue;
+  border-color: blue;
+  cursor: pointer;
+}
+
+img:active {
+  background-color: gray;
+  border-color: darkgray;
+  cursor: pointer;
+}
+
+.side-menu-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+  cursor: pointer;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18em;
+  height: 100%;
+  background-color: white;
+  z-index: 11;
+}
+
+.side-menu a {
+  display: inline-block;
+  border-radius: 5px;
+  margin: 0.5em 3.5em 0.5em 0;
+  border-color: lightgray;
+  padding-top: 16px;
+  float: right;
+  width: 8.75em;
+}
+
+.side-menu a:hover {
+  background-color: lightblue;
+  border-color: blue;
+  color: blue;
+  vertical-align: middle;
+}
+
+.side-menu a:not(.active) {
+  border-color: gray;
+}
+
+.side-menu img {
+  float: left;
+  margin: 0.5em;
+  padding: .35em;
+  position: relative;
+  display: inline-block;
+  z-index: 12;
 }
