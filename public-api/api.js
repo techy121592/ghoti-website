@@ -24,7 +24,6 @@ const cors = require('cors');
 const app = require('express')();
 const mongoClient = require('mongodb').MongoClient;
 
-let posts, maxPostNumber, games, maxGameNumber;
 const chunkSize = 10;
 const url = 'mongodb://192.168.1.16:27017/ghoti-website';
 
@@ -40,6 +39,8 @@ const corsOptions = {
     },
     credentials: true
 };
+
+let dbConn, maxPostNumber, maxGameNumber;
 
 setupWebsiteAPI();
 
@@ -60,34 +61,24 @@ function setupWebsiteAPI() {
 }
 
 function connectToMongoDB() {
-    mongoClient.connect(url, getCollections);
-}
+    mongoClient.connect(url, (err, db) => {
+        assert.equal(null, err);
 
-function getCollections(err, db) {
-    assert.equal(null, err);
-
-    console.log("Connected successfully to mongo server");
-    console.log('Ghoti Games Public Website API listening to 4202!');
-
-    let loadCollections = () => {
-        console.log('loading collections');
-        posts = db.collection('posts');
-        games = db.collection('games');
-
+        console.log("Connected successfully to mongo server");
+        console.log('Ghoti Games Public Website API listening to 4202!');
+        dbConn = db;
         getMaxPostNumber();
         getMaxGameNumber();
-    };
-
-    loadCollections();
-    // Reload every 15 minutes
-    setInterval(loadCollections, 15 * 60 * 1000);
+    });
 }
 
 function getMaxPostNumber() {
+    let posts = dbConn.collection('posts');
     posts.count(setMaxPostNumber);
 }
 
 function getMaxGameNumber() {
+    let games = dbConn.collection('games');
     games.count(setMaxGameNumber);
 }
 
@@ -138,6 +129,7 @@ function cleanGameListFilter(uncleanFilter) {
 function getPost(req, res) {
     res.header("Content-Type", "application/json");
 
+    let posts = dbConn.collection('posts');
     posts.find(cleanPostFilter(req.body))
         .toArray((err, postArray) => {
             assert.equal(err, null);
@@ -148,6 +140,7 @@ function getPost(req, res) {
 function getGame(req, res) {
     res.header("Content-Type", "application/json");
 
+    let games = dbConn.collection('games');
     games.find(cleanGameFilter(req.body))
         .toArray((err, gameArray) => {
             assert.equal(err, null);
@@ -158,6 +151,7 @@ function getGame(req, res) {
 function getListOfPosts(req, res) {
     res.header("Content-Type", "application/json");
 
+    let posts = dbConn.collection('posts');
     posts.find(cleanPostListFilter(req.body),
         {"sort": [['PostNumber', 'desc']]})
         .toArray(
@@ -165,15 +159,18 @@ function getListOfPosts(req, res) {
                 assert.equal(err, null);
                 res.send(JSON.stringify({Posts: postArray}));
             });
+    getMaxPostNumber(); // I know it is a bit late here, but at least this will update the count for the next time
 }
 
 function getListOfGames(req, res) {
     res.header("Content-Type", "application/json");
 
+    let games = dbConn.collection('games');
     games.find(cleanGameListFilter(req.body),
         {"sort": [['GameNumber', 'desc']]})
         .toArray((err, gameArray) => {
             assert.equal(err, null);
             res.send(JSON.stringify({Games: gameArray}));
         });
+    getMaxGameNumber(); // I know it is a bit late here, but at least this will update the count for the next time
 }
