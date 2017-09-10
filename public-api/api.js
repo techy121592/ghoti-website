@@ -57,29 +57,29 @@ function setupWebsiteAPI() {
     app.post('/games', getListOfGames);
 
     console.log("Starting Ghoti Games Public Website API");
-    app.listen(4202, connectToMongoDB);
+    app.listen(4202, connectToMongoDB(db => db.close()));
 }
 
-function connectToMongoDB() {
+function connectToMongoDB(callback) {
     mongoClient.connect(url, (err, db) => {
         assert.equal(null, err);
 
         console.log("Connected successfully to mongo server");
         console.log('Ghoti Games Public Website API listening to 4202!');
-        dbConn = db;
-        getMaxPostNumber();
-        getMaxGameNumber();
+        getMaxPostNumber(db, db => getMaxGameNumber(db, callback));
     });
 }
 
-function getMaxPostNumber() {
-    let posts = dbConn.collection('posts');
+function getMaxPostNumber(db, callback) {
+    let posts = db.collection('posts');
     posts.count(setMaxPostNumber);
+    callback(db);
 }
 
-function getMaxGameNumber() {
-    let games = dbConn.collection('games');
+function getMaxGameNumber(db, callback) {
+    let games = db.collection('games');
     games.count(setMaxGameNumber);
+    callback(db);
 }
 
 function setMaxPostNumber(err, count) {
@@ -129,48 +129,57 @@ function cleanGameListFilter(uncleanFilter) {
 function getPost(req, res) {
     res.header("Content-Type", "application/json");
 
-    let posts = dbConn.collection('posts');
-    posts.find(cleanPostFilter(req.body))
-        .toArray((err, postArray) => {
-            assert.equal(err, null);
-            res.send(JSON.stringify(postArray[0]));
-        });
+    connectToMongoDB(db => {
+        let posts = db.collection('posts');
+        posts.find(cleanPostFilter(req.body))
+            .toArray((err, postArray) => {
+                assert.equal(err, null);
+                res.send(JSON.stringify(postArray[0]));
+                db.close();
+            });
+    });
 }
 
 function getGame(req, res) {
     res.header("Content-Type", "application/json");
 
-    let games = dbConn.collection('games');
-    games.find(cleanGameFilter(req.body))
-        .toArray((err, gameArray) => {
-            assert.equal(err, null);
-            res.send(JSON.stringify(gameArray[0]));
-        });
+    connectToMongoDB(db => {
+        let games = db.collection('games');
+        games.find(cleanGameFilter(req.body))
+            .toArray((err, gameArray) => {
+                assert.equal(err, null);
+                res.send(JSON.stringify(gameArray[0]));
+                db.close();
+            });
+    });
 }
 
 function getListOfPosts(req, res) {
     res.header("Content-Type", "application/json");
-
-    let posts = dbConn.collection('posts');
-    posts.find(cleanPostListFilter(req.body),
-        {"sort": [['PostNumber', 'desc']]})
-        .toArray(
-            function (err, postArray) {
-                assert.equal(err, null);
-                res.send(JSON.stringify({Posts: postArray}));
-            });
-    getMaxPostNumber(); // I know it is a bit late here, but at least this will update the count for the next time
+// create new db connection EVERY time.
+    connectToMongoDB(db => {
+        let posts = db.collection('posts');
+        posts.find(cleanPostListFilter(req.body),
+            {"sort": [['PostNumber', 'desc']]})
+            .toArray((err, postArray) => {
+                    assert.equal(err, null);
+                    res.send(JSON.stringify({Posts: postArray}));
+                    getMaxPostNumber(db, db => db.close()); // I know it is a bit late here, but at least this will update the count for the next time
+                });
+    });
 }
 
 function getListOfGames(req, res) {
     res.header("Content-Type", "application/json");
 
-    let games = dbConn.collection('games');
-    games.find(cleanGameListFilter(req.body),
-        {"sort": [['GameNumber', 'desc']]})
-        .toArray((err, gameArray) => {
-            assert.equal(err, null);
-            res.send(JSON.stringify({Games: gameArray}));
-        });
-    getMaxGameNumber(); // I know it is a bit late here, but at least this will update the count for the next time
+    connectToMongoDB(db => {
+        let games = db.collection('games');
+        games.find(cleanGameListFilter(req.body),
+            {"sort": [['GameNumber', 'desc']]})
+            .toArray((err, gameArray) => {
+                assert.equal(err, null);
+                res.send(JSON.stringify({Games: gameArray}));
+                getMaxPostNumber(db, db => db.close()); // I know it is a bit late here, but at least this will update the count for the next time
+            });
+    });
 }
