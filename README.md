@@ -1,6 +1,6 @@
 # ghoti-website
 
-**This project is going to be replaced by [this](../autoblog)**
+**This project is going to be replaced by [this](/dwelch/autoblog)**
 
 The software that runs the website on ghotigames.com
 
